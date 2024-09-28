@@ -3,67 +3,71 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-
+// Initializing abstract class Animal which will not be instantiated.
 abstract class Animal {
-    // Initialize variables for name and allowed food.
+    // Initialize variables for name, allowed food and dietType.
     private String name = new String();
     private ArrayList<String> allowedFood = new ArrayList<>();
+    private String dietType = new String();
+    // Initialize a boolean variable and method which check if the animal likes to live in a group.
+    private boolean solitary;
+    private int currentHomeNumber;
+
+    Animal() {
+
+    }
 
     Animal(String name) {
         this.name = name;
     } 
 
-    // Declare a variable which will store the animal type as a String.
-    private String typeString = new String();
-
     // Initialize an ArrayList which tracks other type of animals the animal can live with.
-    ArrayList<Animal> allowedTypes = new ArrayList<>();
+    // private ArrayList<Animal> allowedTypes = new ArrayList<>();
 
-    // Initialize a boolean variable and method which check if the animal likes to live in a group.
-    boolean solitary = false;
 
-    private String dietType = new String("");
-
-    // Initialising a set of animal names to keep track of unique names
-    // Set is static and belongs to a whole animal class
-    static Set<String> setOfAnimalNames = new HashSet<>();
-
-    int checkForName(String nameToCheck) {
-        if (setOfAnimalNames.contains(nameToCheck)) {
-            return 0;
-        } else {
-            setOfAnimalNames.add(nameToCheck);
-            return 1;
-        }
-
-        
-    } 
-    
-
-    String getAnimalName() {
+    //Getters and Setters for Animal fields 
+    public String getAnimalName() {
         return this.name;
     }
 
-    ArrayList<String> getAllowedFood() {
+    public ArrayList<String> getAllowedFood() {
         return this.allowedFood;
         
     }
 
-    void setAllowedFood(String food) {
+    public void setAllowedFood(String food) {
         this.getAllowedFood().add(food);
 
     }
 
-    String getDietType() {
+    public String getDietType() {
         return this.dietType;
     }
 
-    void setDietType(String dietType) {
+    public void setDietType(String dietType) {
         this.dietType = dietType;
+    }
+
+    public boolean isSolitary() {
+        return this.solitary;
+    }
+
+    public void setSolitary(boolean solitary) {
+        this.solitary = solitary;
     }
 }
 
+// Initializing dietTypes that inherit from superclass Animal
+
 class Herbivore extends Animal {
+    Herbivore() {
+        this.setAllowedFood(new Hay().getName());
+        this.setAllowedFood(new Corn().getName());
+        this.setAllowedFood(new Grain().getName());
+        this.setAllowedFood(new Carrots().getName());
+        this.setDietType("Herbivore");
+    }
+
     Herbivore(String name) {
         super(name);
         this.setAllowedFood(new Hay().getName());
@@ -71,10 +75,20 @@ class Herbivore extends Animal {
         this.setAllowedFood(new Grain().getName());
         this.setAllowedFood(new Carrots().getName());
         this.setDietType("Herbivore");
-    }
+
+
+    }   
+
 }
 
+
 class Carnivore extends Animal {
+    Carnivore() {
+        this.setAllowedFood(new Chicken().getName());
+        this.setAllowedFood(new Beef().getName());
+        this.setDietType("Carnivore");
+
+    }
 
     Carnivore(String name) {
         super(name);
@@ -87,6 +101,14 @@ class Carnivore extends Animal {
 }
 
 class Omnivore extends Animal {
+    Omnivore() {
+        this.setAllowedFood(new Carrots().getName());
+        this.setAllowedFood(new Chicken().getName());
+        this.setAllowedFood(new Beef().getName());
+        this.setDietType("Omnivore");
+
+    }
+
     Omnivore(String name) {
         super(name);
         this.setAllowedFood(new Carrots().getName());
@@ -96,53 +118,110 @@ class Omnivore extends Animal {
     }
 }
 
+
+
+
 class Lion extends Carnivore {
+    private String className;
     Lion(String name) {
         super(name);
+        className = "Lion";
+        setSolitary(false);
 
 
     }
+
+    public String getClassName() {
+        return className;
+    }
+
+    
 }
 
 class Tiger extends Carnivore {
+    private String className;
     Tiger(String name) {
         super(name);
-
+        className = "Tiger";
+        setSolitary(true);
         
     }
+
+    public String getClassName() {
+        return className;
+    }
+
+
 }
 
 class Leopard extends Carnivore {
+    private String classname;
     Leopard(String name) {
         super(name);
+        classname = "Leopard";
+        setSolitary(true);
+
     }
+
+    public String getClassname() {
+        return classname;
+    }
+
+
 }
 
 class Zebra extends Herbivore {
+    private String classname;
     Zebra(String name) {
         super(name);
+        classname = "Zebra";
+        setSolitary(false);
+    }
+
+    public String getClassname() {
+        return classname;
     }
 }
 
 class Antelope extends Herbivore {
+
+    private String classname;
     Antelope(String name) {
         super(name);
-        // Overwriting Herbivore construct to make sure Antelopes don't eat carrots
-        this.setAllowedFood(new Hay().getName());
-        this.setAllowedFood(new Corn().getName());
-        this.setAllowedFood(new Grain().getName());
+        // Overriding Herbivore construct to make sure Antelopes don't eat carrots
+        this.getAllowedFood().remove(new Carrots().getName());
+        setSolitary(false);
+        classname = "Antelope";
+    }
+
+    public String getClassname() {
+        return classname;
     }
 
 }
 
 class Giraffe extends Herbivore {
+    private String className;
     Giraffe(String name) {
         super(name);
+        setSolitary(false);
+    }
+
+
+    public String getClassName() {
+        return className;
     }
 }
 
 class Bear extends Omnivore {
+    private String className;
     Bear(String name) {
         super(name);
+        setSolitary(true);
     }
+
+    public String getClassName() {
+        return className;
+    }
+
 }
